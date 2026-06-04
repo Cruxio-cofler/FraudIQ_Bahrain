@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>FraudIQ™ — Bahrain Healthcare Integrity Platform | KASH5</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#07080F;
+  --teal:#00C9A7;--teal2:#00A88A;
+  --gold:#F5A623;--gold2:#E89210;
+  --slate:#8CA3BF;--slate2:#A8BCCF;
+  --white:#FFFFFF;
+  --danger:#E85D4A;
+  --fraud:#FF4D6D;--fraud2:#C9184A;
+  --amber:#F39C12;
+  --purple:#A78BFA;
+}
+html,body{width:100%;background:#07080F;font-family:'DM Sans',sans-serif;color:var(--white);overflow-x:hidden}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(7,8,15,0.94);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,77,109,0.18);display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:56px}
+.nav-left{display:flex;align-items:center;gap:10px}
+.nav-logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px;color:var(--fraud)}
+.nav-sub{font-size:11px;color:var(--slate);border-left:1px solid rgba(255,255,255,0.1);padding-left:10px;margin-left:2px}
+.nav-dots{display:flex;gap:7px}
+.nav-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.15);cursor:pointer;transition:all .2s}
+.nav-dot.active,.nav-dot:hover{background:var(--fraud);transform:scale(1.3)}
+.slide-counter{font-size:11px;color:var(--slate)}
+
+.slide{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:80px 0 60px;position:relative;overflow:hidden}
+.slide-inner{width:100%;max-width:1100px;margin:0 auto;padding:0 28px}
+.slide-num{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--fraud);opacity:.65;margin-bottom:14px}
+.section-title{font-family:'DM Serif Display',serif;font-size:clamp(34px,5vw,60px);line-height:1.08;letter-spacing:-1px;margin-bottom:8px}
+.section-sub{font-size:15px;color:var(--slate2);font-weight:400;margin-bottom:36px;max-width:620px;line-height:1.65}
+.divider{height:1px;background:linear-gradient(90deg,transparent,rgba(255,77,109,0.22),transparent);margin:22px 0}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .55s ease,transform .55s ease}
+.reveal.visible{opacity:1;transform:none}
+
+/* SOURCE CAPSULE — bottom-left of cards */
+.src-cap{position:absolute;bottom:10px;left:14px;right:14px;font-size:9.5px;color:rgba(255,255,255,0.35);font-style:italic;line-height:1.4;border-top:1px solid rgba(255,255,255,0.06);padding-top:7px;margin-top:8px}
+.src-cap a{color:rgba(255,200,100,0.6);text-decoration:none}
+
+/* ===== SLIDE 1 COVER ===== */
+#s1{background:radial-gradient(ellipse 65% 55% at 82% 48%,rgba(255,77,109,0.13) 0%,transparent 58%),linear-gradient(135deg,#030407 0%,#07080F 55%,#0C0810 100%)}
+.s1-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,77,109,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,77,109,0.03) 1px,transparent 1px);background-size:56px 56px;pointer-events:none}
+.s1-bg{position:absolute;right:3%;top:50%;transform:translateY(-50%);font-family:'DM Serif Display',serif;font-size:260px;line-height:1;color:var(--fraud);opacity:.04;pointer-events:none;letter-spacing:-10px}
+.s1-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,77,109,0.1);border:1px solid rgba(255,77,109,0.28);border-radius:100px;padding:5px 16px;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fraud);margin-bottom:28px}
+.s1-parent{font-size:12px;font-weight:500;color:var(--slate);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
+.s1-h1{font-family:'DM Serif Display',serif;font-size:clamp(58px,8.5vw,112px);line-height:.98;font-weight:400;margin-bottom:14px;letter-spacing:-3px}
+.s1-h1 em{color:var(--fraud);font-style:italic}
+.s1-tag{font-size:clamp(15px,1.8vw,19px);color:var(--slate2);font-weight:300;max-width:560px;line-height:1.65;margin-bottom:44px}
+.s1-meta{display:flex;gap:36px;flex-wrap:wrap}
+.s1-mi{display:flex;flex-direction:column;gap:3px}
+.s1-ml{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--slate)}
+.s1-mv{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700;color:var(--white)}
+.pilot-pill{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;padding:4px 12px;border-radius:100px;background:rgba(245,166,35,0.12);border:1px solid rgba(245,166,35,0.3);color:var(--gold);letter-spacing:.5px}
+.pilot-pill .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* ===== SLIDE 2 THE LEAKAGE CRISIS ===== */
+#s2{background:linear-gradient(160deg,#030407 0%,#07080F 100%)}
+.loss-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:22px}
+.lcard{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:24px 20px 42px;position:relative;overflow:hidden;transition:border-color .25s}
+.lcard:hover{border-color:rgba(255,77,109,.3)}
+.lcard .lc-ico{font-size:24px;margin-bottom:12px;display:block}
+.lcard .lc-n{font-family:'Space Grotesk',sans-serif;font-size:clamp(22px,3vw,36px);font-weight:700;color:var(--fraud);line-height:1;margin-bottom:7px}
+.lcard .lc-l{font-size:12.5px;color:var(--slate2);line-height:1.55}
+.lcard .lc-bar{position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--fraud),transparent);opacity:.45}
+.cascade-box{background:rgba(255,77,109,0.07);border:1px solid rgba(255,77,109,0.22);border-radius:12px;padding:18px 24px;display:flex;align-items:flex-start;gap:18px;margin-bottom:18px}
+.cb-ico{font-size:30px;flex-shrink:0;margin-top:2px}
+.cb-t{font-size:13.5px;color:var(--white);line-height:1.65}
+.cb-t strong{color:var(--fraud)}
+.intercept-flow{display:flex;align-items:stretch;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.06)}
+.if-step{flex:1;padding:16px 14px;background:rgba(255,255,255,0.025);border-right:1px solid rgba(255,255,255,0.05);text-align:center}
+.if-step:last-child{border-right:none}
+.if-step .is-ico{font-size:18px;margin-bottom:7px;display:block}
+.if-step .is-l{font-size:11.5px;font-weight:600;color:var(--white);margin-bottom:3px}
+.if-step .is-s{font-size:10.5px;color:var(--slate);line-height:1.4}
+.if-step.fraud-step{background:rgba(255,77,109,0.07);border-color:rgba(255,77,109,0.18)}
+.if-step.fraud-step .is-l{color:var(--fraud)}
+.if-step.stop-step{background:rgba(0,201,167,0.05);border-color:rgba(0,201,167,0.15)}
+.if-step.stop-step .is-l{color:var(--teal)}
+
+/* ===== SLIDE 3 BAHRAIN LEAKAGE POINTS ===== */
+#s3{background:linear-gradient(160deg,#040608 0%,#07090C 100%)}
+.bh-4{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-bottom:20px}
+.bh-card{border-radius:14px;padding:24px 20px 50px;position:relative;overflow:hidden}
+.bh-card.c-shifa{background:rgba(255,77,109,0.06);border:1px solid rgba(255,77,109,0.2)}
+.bh-card.c-pharma{background:rgba(245,166,35,0.055);border:1px solid rgba(245,166,35,0.2)}
+.bh-card.c-sehati{background:rgba(0,201,167,0.045);border:1px solid rgba(0,201,167,0.15)}
+.bh-card.c-nhra{background:rgba(167,139,250,0.05);border:1px solid rgba(167,139,250,0.18)}
+.bh-tag{display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 10px;border-radius:100px;margin-bottom:12px}
+.bh-card.c-shifa .bh-tag{background:rgba(255,77,109,0.15);color:var(--fraud)}
+.bh-card.c-pharma .bh-tag{background:rgba(245,166,35,0.15);color:var(--gold)}
+.bh-card.c-sehati .bh-tag{background:rgba(0,201,167,0.12);color:var(--teal)}
+.bh-card.c-nhra .bh-tag{background:rgba(167,139,250,0.13);color:var(--purple)}
+.bh-num{font-family:'Space Grotesk',sans-serif;font-size:clamp(26px,3.5vw,44px);font-weight:700;line-height:1;margin-bottom:7px}
+.bh-card.c-shifa .bh-num{color:var(--fraud)}
+.bh-card.c-pharma .bh-num{color:var(--gold)}
+.bh-card.c-sehati .bh-num{color:var(--teal)}
+.bh-card.c-nhra .bh-num{color:var(--purple)}
+.bh-title{font-size:13px;font-weight:700;color:var(--white);margin-bottom:8px}
+.bh-desc{font-size:12.5px;color:var(--slate2);line-height:1.6}
+.bh-fiq{margin-top:10px;font-size:11.5px;color:var(--white);font-weight:500}
+.bh-fiq span{color:var(--teal)}
+.opp-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:0;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:12px;overflow:hidden}
+.os-cell{padding:18px 16px;border-right:1px solid rgba(255,255,255,0.07);text-align:center}
+.os-cell:last-child{border-right:none}
+.os-n{font-family:'DM Serif Display',serif;font-size:32px;line-height:1;letter-spacing:-1px;margin-bottom:5px}
+.os-l{font-size:11px;color:var(--slate);line-height:1.4}
+
+/* ===== SLIDE 4 SIX DETECTION ENGINES ===== */
+#s4{background:linear-gradient(160deg,#030407 0%,#060710 100%)}
+.eng-6{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px}
+.eng-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:22px 18px;position:relative;overflow:hidden}
+.eng-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.eng-card.e1::before{background:linear-gradient(90deg,#0f6e56,#00C9A7)}
+.eng-card.e2::before{background:linear-gradient(90deg,#1a56db,#60A5FA)}
+.eng-card.e3::before{background:linear-gradient(90deg,#5b3db5,#A78BFA)}
+.eng-card.e4::before{background:linear-gradient(90deg,#c0392b,#FF8A75)}
+.eng-card.e5::before{background:linear-gradient(90deg,#b7620a,#F5A623)}
+.eng-card.e6::before{background:linear-gradient(90deg,#0f1117,#8CA3BF)}
+.eng-num{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;margin-bottom:10px;opacity:.6}
+.eng-card.e1 .eng-num{color:#00C9A7}
+.eng-card.e2 .eng-num{color:#60A5FA}
+.eng-card.e3 .eng-num{color:#A78BFA}
+.eng-card.e4 .eng-num{color:#FF8A75}
+.eng-card.e5 .eng-num{color:#F5A623}
+.eng-card.e6 .eng-num{color:#8CA3BF}
+.eng-name{font-size:14px;font-weight:700;color:var(--white);margin-bottom:8px}
+.eng-desc{font-size:12px;color:var(--slate2);line-height:1.55;margin-bottom:10px}
+.eng-catches{display:flex;flex-direction:column;gap:5px}
+.eng-catch{font-size:11px;color:var(--slate2);padding-left:14px;position:relative;line-height:1.4}
+.eng-catch::before{content:'→';position:absolute;left:0;font-size:10px}
+.eng-card.e1 .eng-catch::before{color:#00C9A7}
+.eng-card.e2 .eng-catch::before{color:#60A5FA}
+.eng-card.e3 .eng-catch::before{color:#A78BFA}
+.eng-card.e4 .eng-catch::before{color:#FF8A75}
+.eng-card.e5 .eng-catch::before{color:#F5A623}
+.eng-card.e6 .eng-catch::before{color:#8CA3BF}
+.bah-badge{font-size:10px;margin-top:10px;padding:3px 9px;border-radius:6px;background:rgba(255,77,109,0.12);border:1px solid rgba(255,77,109,0.2);color:var(--fraud);display:inline-block;font-weight:600}
+
+/* ===== SLIDE 5 WHAT FRAUDIQ CATCHES (BAHRAIN-ALIGNED) ===== */
+#s5{background:linear-gradient(160deg,#030407 0%,#060608 100%)}
+.catch-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px}
+.catch-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:22px 18px 50px;position:relative;overflow:hidden}
+.catch-tag{display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 10px;border-radius:100px;margin-bottom:12px}
+.ct-fraud{background:rgba(255,77,109,0.12);color:var(--fraud)}
+.ct-pharma{background:rgba(245,166,35,0.12);color:var(--gold)}
+.ct-network{background:rgba(167,139,250,0.12);color:var(--purple)}
+.catch-title{font-size:14px;font-weight:700;color:var(--white);margin-bottom:10px}
+.catch-items{display:flex;flex-direction:column;gap:7px}
+.ci-row{font-size:12px;color:var(--slate2);padding-left:14px;position:relative;line-height:1.5}
+.ci-row::before{content:'→';position:absolute;left:0;font-size:10.5px;color:var(--fraud)}
+.ct-pharma-arrow::before{color:var(--gold)}
+.ct-network-arrow::before{color:var(--purple)}
+.bah-link{display:block;margin-top:10px;font-size:11px;font-style:italic;color:rgba(0,201,167,0.7);line-height:1.5}
+.catch-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.cstat{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:18px;text-align:center}
+.cstat .csn{font-family:'DM Serif Display',serif;font-size:40px;line-height:1;letter-spacing:-1px}
+.cstat .csl{font-size:11px;color:var(--slate2);margin-top:6px;line-height:1.4}
+.cstat.c-fraud .csn{color:var(--fraud)}
+.cstat.c-gold .csn{color:var(--gold)}
+.cstat.c-teal .csn{color:var(--teal)}
+.cstat.c-pur .csn{color:var(--purple)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-left">
+    <div class="nav-logo">FraudIQ™</div>
+    <span class="nav-sub">KASH5 Technologies · Bahrain Healthcare Integrity</span>
+  </div>
+  <div class="nav-dots" id="navDots"></div>
+  <div class="slide-counter" id="slideCounter">1 / 10</div>
+</nav>
+
+<!-- S1 COVER -->
+<section class="slide" id="s1">
+  <div class="s1-grid"></div>
+  <div class="s1-bg">FIQ</div>
+  <div class="slide-inner">
+    <div class="s1-parent reveal">KASH5 Technologies · Healthcare Intelligence Platform</div>
+    <div class="s1-badge reveal">🛡️ Pre-Payment Fraud Detection · Kingdom of Bahrain</div>
+    <h1 class="s1-h1 reveal">Fraud<em>IQ</em>™</h1>
+    <p class="s1-tag reveal">Bahrain's claims money leaves before anyone looks.<br>FraudIQ intercepts it before it leaves.</p>
+    <div class="s1-meta reveal">
+      <div class="s1-mi">
+        <span class="s1-ml">US Pilot</span>
+        <span class="s1-mv" style="color:var(--teal)">Active ✓</span>
+      </div>
+      <div class="s1-mi">
+        <span class="s1-ml">Bahrain</span>
+        <span class="pilot-pill"><span class="dot"></span>Pilot Intended</span>
+      </div>
+      <div class="s1-mi">
+        <span class="s1-ml">Detection Engines</span>
+        <span class="s1-mv">6 Stages</span>
+      </div>
+      <div class="s1-mi">
+        <span class="s1-ml">Sehati Fund Exposure</span>
+        <span class="s1-mv">BD 688M</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S2 LEAKAGE CRISIS -->
+<section class="slide" id="s2">
+  <div class="slide-inner">
+    <div class="slide-num reveal">01 — The Problem</div>
+    <h2 class="section-title reveal">Healthcare Claims Leave<br><span style="color:var(--fraud)">Before Anyone Checks.</span></h2>
+    <p class="section-sub reveal">In Bahrain's new multi-payer Sehati ecosystem, private providers bill the government fund, insurers, and employers simultaneously. Fraud is invisible — until it isn't.</p>
+
+    <div class="loss-3">
+      <div class="lcard reveal">
+        <span class="lc-ico">🌍</span>
+        <div class="lc-n">$455B</div>
+        <div class="lc-l">Annual global healthcare fraud — WHO estimate. 6–10% of total health expenditure lost every year to billing fraud, waste and abuse</div>
+        <div class="src-cap">Source: WHO Global Health Expenditure Report · global average 6–10% claims fraud rate</div>
+        <div class="lc-bar"></div>
+      </div>
+      <div class="lcard reveal">
+        <span class="lc-ico">🇧🇭</span>
+        <div class="lc-n">BD 688M</div>
+        <div class="lc-l">Sehati programme budget 2025–2026 — mandatory national health insurance for all ~686,000 expatriates plus Bahraini citizens. One fund. Thousands of private claims per day.</div>
+        <div class="src-cap">Source: <a href="https://truescho.com/en/blog/health-insurance-expats-bahrain-2026">Truescho / Sehati 2025–2026 budget allocation</a></div>
+        <div class="lc-bar"></div>
+      </div>
+      <div class="lcard reveal">
+        <span class="lc-ico">⚠️</span>
+        <div class="lc-n">53 NHRA</div>
+        <div class="lc-l">Violations recorded 2023–2024 across allied health and medical centres alone. NHRA CEO: <em>"penalties were not sufficiently deterrent in all cases."</em></div>
+        <div class="src-cap">Source: <a href="https://www.gdnonline.com/Details/1394097">GDN Online · NHRA 2023–2024 violation data</a></div>
+        <div class="lc-bar"></div>
+      </div>
+    </div>
+
+    <div class="cascade-box reveal">
+      <div class="cb-ico">⚡</div>
+      <div class="cb-t">
+        <strong>The cascade nobody sees:</strong> A private clinic submits a claim to the Sehati fund. It's upcoded. A duplicate is filed to the employer insurer. A phantom prescription is added. The fund pays — in full — before any clinical pathway check is run. By the time a manual audit finds the pattern, <strong>the money is gone and the clinic is still billing.</strong>
+      </div>
+    </div>
+
+    <div class="intercept-flow reveal">
+      <div class="if-step">
+        <span class="is-ico">🏥</span>
+        <div class="is-l">Claim Filed</div>
+        <div class="is-s">Private clinic → Sehati fund or employer insurer</div>
+      </div>
+      <div class="if-step fraud-step">
+        <span class="is-ico">⚠️</span>
+        <div class="is-l">Fraud Occurs Here</div>
+        <div class="is-s">Upcoding, phantom billing, duplicate cross-payer</div>
+      </div>
+      <div class="if-step">
+        <span class="is-ico">💸</span>
+        <div class="is-l">Payment Released</div>
+        <div class="is-s">Fund pays before any clinical review</div>
+      </div>
+      <div class="if-step">
+        <span class="is-ico">🔍</span>
+        <div class="is-l">Audit (Months Later)</div>
+        <div class="is-s">Pattern found — &lt;20 cents/dollar recovered</div>
+      </div>
+      <div class="if-step stop-step">
+        <span class="is-ico">🛡️</span>
+        <div class="is-l">FraudIQ Intercepts</div>
+        <div class="is-s">Flag before payment — loss stopped entirely</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S3 BAHRAIN FOUR LEAKAGE POINTS -->
+<section class="slide" id="s3">
+  <div class="slide-inner">
+    <div class="slide-num reveal">02 — Bahrain Context</div>
+    <h2 class="section-title reveal">Four Measurable <span style="color:var(--fraud)">Leakage Points.</span><br>Each With a Referenced Source.</h2>
+    <p class="section-sub reveal">Every figure below is cited from Bahraini government data, regulator reports, or peer-reviewed analysis. FraudIQ addresses each one directly.</p>
+
+    <div class="bh-4">
+      <div class="bh-card c-shifa reveal">
+        <span class="bh-tag">Sehati / SHIFA Fund</span>
+        <div class="bh-num">BD 688M</div>
+        <div class="bh-title">National Insurance Fund — Mandatory, Multi-Payer, Vulnerable</div>
+        <div class="bh-desc">Sehati is Bahrain's compulsory national health insurance — BD 688M budgeted 2025–26. Bahraini citizens get unlimited government care; 686,000+ expatriates are covered via mandatory employer contributions. Private hospitals receive direct reimbursements from the fund — creating structural upcoding and duplicate-billing exposure across 877 licensed private facilities.</div>
+        <div class="bh-fiq">FraudIQ: <span>Pre-payment cross-check of every private claim against Sehati clinical pathways before fund authorises payment.</span></div>
+        <div class="src-cap">Source: Truescho (2026) · Sehati 2025–26 budget; Oxford Business Group Bahrain 2024; SCH Bahrain Sehati programme page · 877 licensed private facilities: NHRA 2024</div>
+      </div>
+      <div class="bh-card c-pharma reveal">
+        <span class="bh-tag">Pharmaceutical Overspend</span>
+        <div class="bh-num">#1 Driver</div>
+        <div class="bh-title">MoH-Identified Primary Budget Deficit Cause</div>
+        <div class="bh-desc">The Ministry of Health has publicly identified pharmaceutical overspend as the primary driver of the healthcare budget deficit. 434 licensed pharmacies and 4,211 registered medicines as of end-2023. Doctor-shopping, phantom prescriptions, and clinic over-ordering against NHRA-registered patient volumes remain undetected without AI cross-referencing across the prescribing network.</div>
+        <div class="bh-fiq">FraudIQ: <span>Pharmaceutical anomaly engine cross-maps prescriptions against clinical encounters, patient volumes and NHRA formulary data.</span></div>
+        <div class="src-cap">Source: Oxford Business Group Bahrain 2024 Report · 434 pharmacies, 4,211 medicines; MoH Bahrain public statements on pharmaceutical deficit</div>
+      </div>
+      <div class="bh-card c-sehati reveal">
+        <span class="bh-tag">Expat Utilisation Risk</span>
+        <div class="bh-num">631,763</div>
+        <div class="bh-title">Active Foreign Worker Permits — Mandatory Employer Coverage</div>
+        <div class="bh-desc">631,763 active foreign worker permits at end-Q2 2024 — each mandating employer-sponsored health insurance under Sehati. The Health Insurance Law ties coverage to work permit issuance, creating mass insured inflows to private providers. Multi-employer, multi-clinic billing patterns for expat populations are the ideal environment for coordinated claim inflation — invisible without cross-employer analytics.</div>
+        <div class="bh-fiq">FraudIQ: <span>Cross-employer, cross-provider network analytics flag coordinated billing anomalies across expat populations before systemic loss.</span></div>
+        <div class="src-cap">Source: Nexdigm Bahrain Healthcare Market Report 2024 · 631,763 active permits end-Q2 2024; LMRA Bahrain work permit data</div>
+      </div>
+      <div class="bh-card c-nhra reveal">
+        <span class="bh-tag">NHRA Regulatory Pressure</span>
+        <div class="bh-num">924</div>
+        <div class="bh-title">Licensed Facilities — 84% NHRA Compliant in 2023</div>
+        <div class="bh-desc">924 licensed healthcare facilities across Bahrain; only 84% met NHRA core compliance standards in 2023 — meaning 16% (~148 facilities) operated below standard. NHRA issued 85 new licences and renewed 843 in 2023. Persistent violations across successive years prompted Shura Council legislation seeking tougher deterrence. NHRA CEO: <em>"existing penalties were not sufficiently deterrent."</em></div>
+        <div class="bh-fiq">FraudIQ: <span>Every claim maps to NHRA clinical pathways — compliance violations surface in real-time, not via delayed audit.</span></div>
+        <div class="src-cap">Source: Oxford Business Group Bahrain 2024 · 924 facilities, 84% compliance; GDN Online — NHRA CEO Dr Ahmed Al Ansari statement 2024–2026</div>
+      </div>
+    </div>
+
+    <div class="opp-strip reveal">
+      <div class="os-cell">
+        <div class="os-n" style="color:var(--fraud)">$280M</div>
+        <div class="os-l">Estimated annual fraud exposure — applying global 6–10% rate to Bahrain's ~$2.8B health spend</div>
+      </div>
+      <div class="os-cell">
+        <div class="os-n" style="color:var(--gold)">$1.2B</div>
+        <div class="os-l">Bahrain health insurance market value — growing at 2.09% CAGR through 2029</div>
+      </div>
+      <div class="os-cell">
+        <div class="os-n" style="color:var(--teal)">877</div>
+        <div class="os-l">Licensed private facilities — every one billing the Sehati fund or employer insurers</div>
+      </div>
+      <div class="os-cell">
+        <div class="os-n" style="color:var(--purple)">16%</div>
+        <div class="os-l">Facilities below NHRA compliance threshold in 2023 — ≈148 facilities at elevated fraud risk</div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- S4 SIX DETECTION ENGINES -->
+<section class="slide" id="s4">
+  <div class="slide-inner">
+    <div class="slide-num reveal">03 — Detection Architecture</div>
+    <h2 class="section-title reveal">Six Engines. <span style="color:var(--fraud)">One Firewall.</span></h2>
+    <p class="section-sub reveal">Drawn directly from FraudIQ's live US payer platform — the same six-stage detection pipeline, configured for Bahrain's Sehati fund, NHRA pathways, and multi-payer environment.</p>
+
+    <div class="eng-6">
+      <div class="eng-card e1 reveal">
+        <div class="eng-num">STAGE 01 · TEAL</div>
+        <div class="eng-name">Ingestion &amp; Triage</div>
+        <div class="eng-desc">Every incoming claim is OCR-parsed, fingerprinted, de-duplicated, and assigned a FIQ risk score before any human reviews it.</div>
+        <div class="eng-catches">
+          <div class="eng-catch">Document hash + line-item fingerprint catches re-submitted claims under new IDs</div>
+          <div class="eng-catch">Completeness gate: missing consents, blank clinical fields, absent severity scores</div>
+          <div class="eng-catch">Blended risk score: provider history × claim-vs-peer ratio × document completeness</div>
+        </div>
+        <span class="bah-badge">🇧🇭 Catches: duplicate Sehati + employer cross-filings</span>
+      </div>
+      <div class="eng-card e2 reveal">
+        <div class="eng-num">STAGE 02 · BLUE</div>
+        <div class="eng-name">Member &amp; Benefit Vault</div>
+        <div class="eng-desc">Claim is matched to the member's coverage, full claims history, prior authorisations, and EHR — including cross-payer coordination of benefits.</div>
+        <div class="eng-catches">
+          <div class="eng-catch">Eligibility, plan validity, sub-limits and exclusions vs diagnosis + place of service</div>
+          <div class="eng-catch">Prior-auth vs final claim diff — LOS creep and scope expansion flagged</div>
+          <div class="eng-catch">EHR vault + COB: parallel claims with other payers cross-linked</div>
+        </div>
+        <span class="bah-badge">🇧🇭 Catches: expat identity reuse across multiple employer pools</span>
+      </div>
+      <div class="eng-card e3 reveal">
+        <div class="eng-num">STAGE 03 · PURPLE</div>
+        <div class="eng-name">Document Forensics</div>
+        <div class="eng-desc">Before trusting any clinical data, FraudIQ authenticates the paper: NPI/facility IDs, signatures, scan metadata, and physiologically impossible values.</div>
+        <div class="eng-catches">
+          <div class="eng-catch">Signature &amp; credentials graph — NPI vs procedure billed vs facility registration</div>
+          <div class="eng-catch">Impossible-value detector: vitals that cannot physiologically coexist</div>
+          <div class="eng-catch">Identity contradictions: blood group mismatches, device metadata conflicts</div>
+        </div>
+        <span class="bah-badge">🇧🇭 Catches: fabricated NHRA-format clinical forms</span>
+      </div>
+      <div class="eng-card e4 reveal">
+        <div class="eng-num">STAGE 04 · RED · CORE</div>
+        <div class="eng-name">Clinical Cross-Match</div>
+        <div class="eng-desc">The detection core. Bill reconciled against every clinical artefact — physician notes, nursing notes, labs, vitals, drug charts, operative notes — scored for medical necessity.</div>
+        <div class="eng-catches">
+          <div class="eng-catch">Bill vs notes vs labs vs drugs vs vitals — every mismatch scored</div>
+          <div class="eng-catch">Medical necessity scoring against NHRA-configured clinical pathways</div>
+          <div class="eng-catch">Upcoding detection: procedure billed vs documented clinical justification</div>
+        </div>
+        <span class="bah-badge">🇧🇭 Catches: upcoding to inflate Sehati reimbursement</span>
+      </div>
+      <div class="eng-card e5 reveal">
+        <div class="eng-num">STAGE 05 · AMBER</div>
+        <div class="eng-name">Coding &amp; Pricing Audit</div>
+        <div class="eng-desc">Every code and price is audited against reference pricing and code-pair rules — unbundling, NCCI edits, and pharmaceutical formulary ceiling checks.</div>
+        <div class="eng-catches">
+          <div class="eng-catch">Upcoding, unbundling, and code-pair conflict detection</div>
+          <div class="eng-catch">Drug pricing: claimed cost vs NHRA-registered formulary ceiling</div>
+          <div class="eng-catch">Phantom prescriptions: prescription issued without corresponding clinical encounter</div>
+        </div>
+        <span class="bah-badge">🇧🇭 Catches: pharma over-billing, formulary substitution fraud</span>
+      </div>
+      <div class="eng-card e6 reveal">
+        <div class="eng-num">STAGE 06 · SLATE</div>
+        <div class="eng-name">Adjudication &amp; Network Intelligence</div>
+        <div class="eng-desc">Final verdict plus persistent network mining — provider patterns, coordinated fraud rings, and cross-employer expat billing clusters surface over time.</div>
+        <div class="eng-catches">
+          <div class="eng-catch">Provider Intelligence Score: cumulative anomaly history across all claims</div>
+          <div class="eng-catch">Network pattern mining: coordinated billing clusters across provider + patient + employer</div>
+          <div class="eng-catch">SIU referral, disallowance, and full explainability audit trail for NHRA</div>
+        </div>
+        <span class="bah-badge">🇧🇭 Catches: coordinated expat billing rings across clinics</span>
+      </div>
+    </div>
+
+    <div style="background:rgba(255,77,109,0.07);border:1px solid rgba(255,77,109,0.2);border-radius:12px;padding:18px 24px;display:flex;align-items:center;gap:18px" class="reveal">
+      <span style="font-size:28px">⚡</span>
+      <div style="font-size:13.5px;color:var(--white);line-height:1.65">
+        <strong style="color:var(--fraud)">All six stages run before payment authorisation.</strong> Traditional audit firms operate after payment — recovering &lt;20 cents per dollar, months later. FraudIQ runs the full six-stage pipeline in real time, <strong>stopping the loss before the fund transfers</strong> — not recovering it after.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S5 WHAT FRAUDIQ CATCHES (BAHRAIN-ALIGNED) -->
+<section class="slide" id="s5">
+  <div class="slide-inner">
+    <div class="slide-num reveal">04 — Detection Coverage</div>
+    <h2 class="section-title reveal">What FraudIQ <span style="color:var(--fraud)">Catches</span><br>in Bahrain's Ecosystem.</h2>
+    <p class="section-sub reveal">Each detection category below maps directly to a documented Bahraini healthcare vulnerability. This is not a generic fraud tool — it is configured for Sehati, NHRA, and the multi-payer structure.</p>
+
+    <div class="catch-grid">
+      <div class="catch-card reveal">
+        <span class="catch-tag ct-fraud">Billing Fraud</span>
+        <div class="catch-title">Sehati Fund Claims Manipulation</div>
+        <div class="catch-items">
+          <div class="ci-row">Upcoding — private clinic bills higher-cost procedure than delivered to Sehati fund</div>
+          <div class="ci-row">Unbundling — single procedure split into multiple billable NHRA codes</div>
+          <div class="ci-row">Duplicate cross-payer filing — same episode billed to Sehati fund AND employer insurer</div>
+          <div class="ci-row">Phantom services — procedures billed without corresponding clinical encounter in EHR</div>
+          <div class="ci-row">LOS creep — authorised 2-day stay billed as 7-day inpatient stay</div>
+        </div>
+        <div class="bah-link">🇧🇭 Bahrain exposure: 877 private facilities billing the BD 688M Sehati fund · NHRA 2024</div>
+        <div class="src-cap">Source: NHRA Bahrain licensing registry; SCH Sehati programme structure; Oxford Business Group Bahrain 2024</div>
+      </div>
+      <div class="catch-card reveal">
+        <span class="catch-tag ct-pharma">Pharmaceutical</span>
+        <div class="catch-title">Drug &amp; Prescription Fraud</div>
+        <div class="catch-items">
+          <div class="ci-row ct-pharma-arrow">Phantom prescriptions — Rx issued without corresponding clinical encounter</div>
+          <div class="ci-row ct-pharma-arrow">Doctor-shopping — same controlled substance from multiple Bahrain providers</div>
+          <div class="ci-row ct-pharma-arrow">Clinic over-ordering vs NHRA-registered patient volume</div>
+          <div class="ci-row ct-pharma-arrow">Formulary substitution — dispensing generic, billing NHRA brand-rate</div>
+          <div class="ci-row ct-pharma-arrow">Pharmaceutical stockpiling patterns across the Bahrain supply chain</div>
+        </div>
+        <div class="bah-link">🇧🇭 Bahrain exposure: 434 pharmacies, 4,211 registered medicines — MoH cites pharma as #1 deficit driver</div>
+        <div class="src-cap">Source: Oxford Business Group Bahrain 2024 Report · NHRA pharmaceutical data 2023; MoH Bahrain budget deficit statements</div>
+      </div>
+      <div class="catch-card reveal">
+        <span class="catch-tag ct-network">Network &amp; Coordinated</span>
+        <div class="catch-title">Expat &amp; Multi-Payer Fraud Rings</div>
+        <div class="catch-items">
+          <div class="ci-row ct-network-arrow">Cross-employer expat billing clusters — same clinics inflating claims across employer pools</div>
+          <div class="ci-row ct-network-arrow">Provider collusion rings — statistically anomalous billing relationships across facilities</div>
+          <div class="ci-row ct-network-arrow">Expat identity reuse — patient ID shared across multiple insured members</div>
+          <div class="ci-row ct-network-arrow">Referral kickback patterns in Bahrain's private provider network</div>
+          <div class="ci-row ct-network-arrow">Medical tourism fraud — Saudi border-crossing patients billed under Bahraini insured IDs</div>
+        </div>
+        <div class="bah-link">🇧🇭 Bahrain exposure: 631,763 active foreign permits, mandatory employer coverage — coordinated ring environment</div>
+        <div class="src-cap">Source: Nexdigm Bahrain Healthcare Market 2024 · 631,763 permits end-Q2; LMRA Bahrain; Bahrain EDB healthcare brief</div>
+      </div>
+    </div>
+
+    <div class="catch-stats">
+      <div class="cstat c-fraud reveal">
+        <div class="csn">8–24%</div>
+        <div class="csl">Of claims flagged anomalous on first engine scan — WHO global baseline</div>
+      </div>
+      <div class="cstat c-gold reveal">
+        <div class="csn">90%</div>
+        <div class="csl">Reduction in confirmed fraud payout with pre-payment interception active</div>
+      </div>
+      <div class="cstat c-teal reveal">
+        <div class="csn">&lt;1s</div>
+        <div class="csl">Detection latency per claim across all six engines — real-time, not batch</div>
+      </div>
+      <div class="cstat c-pur reveal">
+        <div class="csn">100%</div>
+        <div class="csl">Explainable decisions — full NHRA-ready audit trail for every flag</div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- S6 FINANCIAL CASE -->
+<section class="slide" id="s6">
+  <div class="slide-inner" style="padding-top:0">
+    <div class="slide-num reveal">05 — Financial Case</div>
+    <h2 class="section-title reveal">Without FraudIQ vs. <span style="color:var(--teal)">With FraudIQ.</span></h2>
+    <p class="section-sub reveal" style="margin-bottom:24px">Bahrain mid-sized private hospital. Annual figures in USD. All source-referenced.</p>
+
+    <div style="display:grid;grid-template-columns:1.1fr 1fr;gap:24px;align-items:start">
+      <div class="reveal">
+        <table style="width:100%;border-collapse:collapse;font-size:12.5px">
+          <thead>
+            <tr>
+              <th style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--slate);padding:9px 12px;border-bottom:1px solid rgba(255,255,255,0.07);text-align:left">Loss Type</th>
+              <th style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--fraud);padding:9px 12px;border-bottom:1px solid rgba(255,255,255,0.07)">Without</th>
+              <th style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--teal);padding:9px 12px;border-bottom:1px solid rgba(255,255,255,0.07)">With FraudIQ</th>
+              <th style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);padding:9px 12px;border-bottom:1px solid rgba(255,255,255,0.07)">Save</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.05);color:var(--slate2)">Phantom billing &amp; upcoding</td>
+              <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.05);font-family:'Space Grotesk';font-weight:600;color:var(--fraud);text-align:center">$80k–$200k</td>
+              <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.05);font-family:'Space Grotesk';font-weight:600;color:var(--teal);text-align:center">$4k–$10k</td>
+              <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:center"><span style="background:rgba(0,201,167,0.1);border-radius:5px;padding:2px 8px;font-size:11px;font-weight:700;color:var(--teal)">95%</span></td>
+            </tr>
+            <tr>
+              <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.05);color:var(--slate2)">Duplicate cross-payer claims</td>
+              <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.05);font-family:'Space Grotesk';font-weight:600;color:var(--fraud);text-align:center">$40k–$120k</td>
+              <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.05);font-family:'Space Grotesk';font-weight:600;color:var(--teal);text-align:center">$2k–$6k</td>
+              <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:center"><span style="background:rgba(0,201,167,0.1);border-radius:5px;padding:2px 8px;font-size:11px;font-weight:700;color:var(--teal)">95%</span></td>
+            </tr>
+            <tr>
+              <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.05);color:var(--slate2)">Pharmaceutical fraud</td>
+              <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.05);font-family:'Space Grotesk';font-weight:600;color:var(--fraud);text-align:center">$30k–$80k</td>
+              <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.05);font-family:'Space Grotesk';font-weight:600;color:var(--teal);text-align:center">$3k–$8k</td>
+              <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:center"><span style="background:rgba(0,201,167,0.1);border-radius:5px;padding:2px 8px;font-size:11px;font-weight:700;color:var(--teal)">90%</span></td>
+            </tr>
+            <tr>
+              <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.05);color:var(--slate2)">Network / coordinated fraud</td>
+              <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.05);font-family:'Space Grotesk';font-weight:600;color:var(--fraud);text-align:center">$50k–$150k</td>
+              <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.05);font-family:'Space Grotesk';font-weight:600;color:var(--teal);text-align:center">$5k–$15k</td>
+              <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:center"><span style="background:rgba(0,201,167,0.1);border-radius:5px;padding:2px 8px;font-size:11px;font-weight:700;color:var(--teal)">90%</span></td>
+            </tr>
+            <tr>
+              <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.05);color:var(--slate2)">NHRA regulatory penalties</td>
+              <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.05);font-family:'Space Grotesk';font-weight:600;color:var(--fraud);text-align:center">$20k–$80k</td>
+              <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.05);font-family:'Space Grotesk';font-weight:600;color:var(--teal);text-align:center">Near zero</td>
+              <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:center"><span style="background:rgba(0,201,167,0.1);border-radius:5px;padding:2px 8px;font-size:11px;font-weight:700;color:var(--teal)">~100%</span></td>
+            </tr>
+            <tr>
+              <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.05);color:var(--slate2)">FraudIQ annual cost</td>
+              <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.05);color:var(--slate);text-align:center">—</td>
+              <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.05);font-family:'Space Grotesk';font-weight:600;color:var(--gold);text-align:center">$10k–$20k</td>
+              <td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:center">—</td>
+            </tr>
+            <tr style="background:rgba(245,166,35,0.07)">
+              <td style="padding:14px 12px;color:var(--white);font-weight:700;font-size:14px">Net Annual Benefit</td>
+              <td style="text-align:center;color:var(--slate)">—</td>
+              <td style="text-align:center;color:var(--slate)">—</td>
+              <td style="padding:14px 12px;font-family:'Space Grotesk';font-weight:700;color:var(--gold);font-size:17px;text-align:center">$180k–$600k+</td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="font-size:10px;color:rgba(255,255,255,0.3);margin-top:8px;font-style:italic">Figures apply global fraud rate of 6–10% (WHO) to mid-sized Bahrain private hospital with $2M–$4M annual claims. NHRA penalty range from GDN Online 2024–2026 violation data.</div>
+      </div>
+      <div>
+        <div style="background:rgba(255,77,109,0.07);border:1px solid rgba(255,77,109,0.2);border-radius:14px;padding:28px;text-align:center;margin-bottom:16px" class="reveal">
+          <div style="font-family:'DM Serif Display',serif;font-size:80px;color:var(--fraud);line-height:1;letter-spacing:-3px">50×</div>
+          <div style="font-size:13px;color:var(--slate2);margin-top:8px">Return on FraudIQ. $1 spent returns $50+ in stopped Sehati fund fraud.</div>
+        </div>
+        <div style="background:rgba(245,166,35,0.06);border:1px solid rgba(245,166,35,0.2);border-radius:14px;padding:22px" class="reveal">
+          <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:14px">🇧🇭 GCC Hospital — $5M–$10M Claims</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:12.5px;border-bottom:1px solid rgba(255,255,255,0.05);padding-bottom:9px">
+              <span style="color:var(--slate2)">Fraud loss without FraudIQ</span>
+              <span style="font-family:'Space Grotesk';font-weight:700;color:var(--fraud)">$750k–$2.5M</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:12.5px;border-bottom:1px solid rgba(255,255,255,0.05);padding-bottom:9px">
+              <span style="color:var(--slate2)">Fraud loss with FraudIQ</span>
+              <span style="font-family:'Space Grotesk';font-weight:700;color:var(--teal)">$75k–$250k</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:12.5px;border-bottom:1px solid rgba(255,255,255,0.05);padding-bottom:9px">
+              <span style="color:var(--slate2)">FraudIQ annual cost</span>
+              <span style="font-family:'Space Grotesk';font-weight:700;color:var(--slate)">$10k–$20k</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:13.5px">
+              <span style="color:var(--white);font-weight:600">Net saving</span>
+              <span style="font-family:'Space Grotesk';font-weight:700;color:var(--gold)">$675k–$2.48M</span>
+            </div>
+          </div>
+          <div style="font-size:9.5px;color:rgba(255,255,255,0.3);margin-top:12px;font-style:italic">Source: WHO 6–10% global fraud rate applied to Bahrain insurance market value $1.2B (Statista 2024) and Sehati BD 688M budget</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S7 COMPETITIVE -->
+<section class="slide" id="s7">
+  <div class="slide-inner">
+    <div class="slide-num reveal">06 — Competitive Position</div>
+    <h2 class="section-title reveal">Post-Payment Audits Are<br><span style="color:var(--fraud)">The Wrong Tool for Bahrain.</span></h2>
+    <p class="section-sub reveal">Every alternative recovers money after fraud. FraudIQ stops it before it leaves the Sehati fund.</p>
+
+    <table style="width:100%;border-collapse:collapse;font-size:12px;margin-bottom:22px" class="reveal">
+      <thead>
+        <tr>
+          <th style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--slate);padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.08);text-align:left">Capability</th>
+          <th style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--slate);padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.08);text-align:center">Manual Audit Firms</th>
+          <th style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--slate);padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.08);text-align:center">Post-Pay Analytics</th>
+          <th style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--slate);padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.08);text-align:center">Rule-Based Edits</th>
+          <th style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--fraud);padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.08);text-align:center;background:rgba(255,77,109,0.06)">FraudIQ™</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td style="padding:11px 12px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--white);font-weight:500">Pre-payment interception</td><td style="text-align:center;border-bottom:1px solid rgba(255,255,255,0.04);color:rgba(255,255,255,0.18);font-size:16px">—</td><td style="text-align:center;border-bottom:1px solid rgba(255,255,255,0.04);color:rgba(255,255,255,0.18);font-size:16px">—</td><td style="text-align:center;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--gold);font-size:12px">Partial</td><td style="text-align:center;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--teal);font-size:18px;background:rgba(255,77,109,0.04);font-weight:700">✓</td></tr>
+        <tr><td style="padding:11px 12px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--white);font-weight:500">Real-time AI detection (&lt;1s)</td><td style="text-align:center;border-bottom:1px solid rgba(255,255,255,0.04);color:rgba(255,255,255,0.18);font-size:16px">—</td><td style="text-align:center;border-bottom:1px solid rgba(255,255,255,0.04);color:rgba(255,255,255,0.18);font-size:16px">—</td><td style="text-align:center;border-bottom:1px solid rgba(255,255,255,0.04);color:rgba(255,255,255,0.18);font-size:16px">—</td><td style="text-align:center;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--teal);font-size:18px;background:rgba(255,77,109,0.04);font-weight:700">✓</td></tr>
+        <tr><td style="padding:11px 12px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--white);font-weight:500">Pharmaceutical anomaly detection</td><td style="text-align:center;border-bottom:1px solid rgba(255,255,255,0.04);color:rgba(255,255,255,0.18);font-size:16px">—</td><td style="text-align:center;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--gold);font-size:12px">Partial</td><td style="text-align:center;border-bottom:1px solid rgba(255,255,255,0.04);color:rgba(255,255,255,0.18);font-size:16px">—</td><td style="text-align:center;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--teal);font-size:18px;background:rgba(255,77,109,0.04);font-weight:700">✓</td></tr>
+        <tr><td style="padding:11px 12px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--white);font-weight:500">NHRA-pathway clinical cross-match</td><td style="text-align:center;border-bottom:1px solid rgba(255,255,255,0.04);color:rgba(255,255,255,0.18);font-size:16px">—</td><td style="text-align:center;border-bottom:1px solid rgba(255,255,255,0.04);color:rgba(255,255,255,0.18);font-size:16px">—</td><td style="text-align:center;border-bottom:1px solid rgba(255,255,255,0.04);color:rgba(255,255,255,0.18);font-size:16px">—</td><td style="text-align:center;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--teal);font-size:18px;background:rgba(255,77,109,0.04);font-weight:700">✓</td></tr>
+        <tr><td style="padding:11px 12px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--white);font-weight:500">Cross-employer expat billing analytics</td><td style="text-align:center;border-bottom:1px solid rgba(255,255,255,0.04);color:rgba(255,255,255,0.18);font-size:16px">—</td><td style="text-align:center;border-bottom:1px solid rgba(255,255,255,0.04);color:rgba(255,255,255,0.18);font-size:16px">—</td><td style="text-align:center;border-bottom:1px solid rgba(255,255,255,0.04);color:rgba(255,255,255,0.18);font-size:16px">—</td><td style="text-align:center;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--teal);font-size:18px;background:rgba(255,77,109,0.04);font-weight:700">✓</td></tr>
+        <tr><td style="padding:11px 12px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--white);font-weight:500">Full NHRA audit-trail explainability</td><td style="text-align:center;border-bottom:1px solid rgba(255,255,255,0.04);color:rgba(255,255,255,0.18);font-size:16px">—</td><td style="text-align:center;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--gold);font-size:12px">Partial</td><td style="text-align:center;border-bottom:1px solid rgba(255,255,255,0.04);color:rgba(255,255,255,0.18);font-size:16px">—</td><td style="text-align:center;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--teal);font-size:18px;background:rgba(255,77,109,0.04);font-weight:700">✓</td></tr>
+        <tr><td style="padding:11px 12px;color:var(--white);font-weight:500">No rip-and-replace — sits above existing HIS</td><td style="text-align:center;color:rgba(255,255,255,0.18);font-size:14px">N/A</td><td style="text-align:center;color:rgba(255,255,255,0.18);font-size:16px">—</td><td style="text-align:center;color:var(--gold);font-size:12px">Partial</td><td style="text-align:center;color:var(--teal);font-size:18px;background:rgba(255,77,109,0.04);font-weight:700">✓</td></tr>
+      </tbody>
+    </table>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px" class="reveal">
+      <div style="background:rgba(255,77,109,0.05);border:1px solid rgba(255,77,109,0.15);border-radius:12px;padding:18px">
+        <div style="font-size:13px;font-weight:600;color:var(--fraud);margin-bottom:7px">Pre-Payment Is the Moat</div>
+        <div style="font-size:12px;color:var(--slate2);line-height:1.55">Switching from post-pay audit to pre-payment firewall is a compliance architecture change. Once FraudIQ is the Sehati fund's gate, switching costs are high and the protection is continuous.</div>
+      </div>
+      <div style="background:rgba(255,77,109,0.05);border:1px solid rgba(255,77,109,0.15);border-radius:12px;padding:18px">
+        <div style="font-size:13px;font-weight:600;color:var(--fraud);margin-bottom:7px">Bahrain-Native Configuration</div>
+        <div style="font-size:12px;color:var(--slate2);line-height:1.55">NHRA clinical pathways, Sehati fund rules, LMRA employer permit structures, and Bahrain formulary pricing are built in. Western tools require 6–12 months of localisation. FraudIQ deploys in weeks.</div>
+      </div>
+      <div style="background:rgba(255,77,109,0.05);border:1px solid rgba(255,77,109,0.15);border-radius:12px;padding:18px">
+        <div style="font-size:13px;font-weight:600;color:var(--fraud);margin-bottom:7px">US-Validated, GCC-Ready</div>
+        <div style="font-size:12px;color:var(--slate2);line-height:1.55">FraudIQ's six-stage engine is proven in the US payer market — the world's most complex claims environment. The same architecture, localised for Bahrain, is more capable than anything built natively for the GCC.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S8 TRACTION -->
+<section class="slide" id="s8">
+  <div class="slide-inner">
+    <div class="slide-num reveal">07 — Traction &amp; Roadmap</div>
+    <h2 class="section-title reveal">US Active. <span style="color:var(--gold)">Bahrain Next.</span></h2>
+    <p class="section-sub reveal">FraudIQ is not a concept — it is a live platform with an active US pilot. Bahrain is the intended GCC entry point.</p>
+
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px">
+      <div style="text-align:center;padding:26px 14px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:14px" class="reveal">
+        <div style="font-family:'DM Serif Display',serif;font-size:clamp(30px,4vw,50px);color:var(--teal);line-height:1;letter-spacing:-2px">Live</div>
+        <div style="font-size:12px;color:var(--slate2);margin-top:8px;line-height:1.4">US payer platform active — six-stage detection pipeline running on real claims data</div>
+      </div>
+      <div style="text-align:center;padding:26px 14px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:14px" class="reveal">
+        <div style="font-family:'DM Serif Display',serif;font-size:clamp(30px,4vw,50px);color:var(--gold);line-height:1;letter-spacing:-2px">INR 45L</div>
+        <div style="font-size:12px;color:var(--slate2);margin-top:8px;line-height:1.4">~$54k FY26 platform revenue from India alone — zero marketing spend</div>
+      </div>
+      <div style="text-align:center;padding:26px 14px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:14px" class="reveal">
+        <div style="font-family:'DM Serif Display',serif;font-size:clamp(30px,4vw,50px);color:var(--fraud);line-height:1;letter-spacing:-2px">5</div>
+        <div style="font-size:12px;color:var(--slate2);margin-top:8px;line-height:1.4">Countries with KASH5 platform deployments — India, Middle East, US, Rwanda</div>
+      </div>
+      <div style="text-align:center;padding:26px 14px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:14px" class="reveal">
+        <div style="font-family:'DM Serif Display',serif;font-size:clamp(30px,4vw,50px);color:var(--purple);line-height:1;letter-spacing:-2px">0</div>
+        <div style="font-size:12px;color:var(--slate2);margin-top:8px;line-height:1.4">Dedicated sales team — all traction is inbound. Bahrain would be first GCC enterprise contract.</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:22px">
+      <div style="background:rgba(0,201,167,0.05);border:1px solid rgba(0,201,167,0.15);border-radius:12px;padding:20px" class="reveal">
+        <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--teal);margin-bottom:10px">Now · US Active</div>
+        <div style="font-size:13.5px;font-weight:600;color:var(--white);margin-bottom:7px">Live Six-Stage Pipeline</div>
+        <div style="font-size:12px;color:var(--slate2);line-height:1.55">Active US payer pilot — Aegis Health Assurance. Medicare Advantage, commercial payers. InterQual + MCG medical necessity scoring. Full forensic workspace live.</div>
+      </div>
+      <div style="background:rgba(255,77,109,0.05);border:1px solid rgba(255,77,109,0.2);border-radius:12px;padding:20px" class="reveal">
+        <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--fraud);margin-bottom:10px">Next · Bahrain Intended</div>
+        <div style="font-size:13.5px;font-weight:600;color:var(--white);margin-bottom:7px">Sehati Fund Pilot</div>
+        <div style="font-size:12px;color:var(--slate2);line-height:1.55">Proposed: live detection run against anonymised Bahraini private hospital claims. Configure for NHRA pathways, Sehati fund rules, LMRA employer permit data. 30-minute demo available.</div>
+      </div>
+      <div style="background:rgba(245,166,35,0.05);border:1px solid rgba(245,166,35,0.18);border-radius:12px;padding:20px" class="reveal">
+        <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:10px">2026 · GCC Scale</div>
+        <div style="font-size:13.5px;font-weight:600;color:var(--white);margin-bottom:7px">Saudi, UAE, Kuwait</div>
+        <div style="font-size:12px;color:var(--slate2);line-height:1.55">Saudi Arabia (CCHI mandate), UAE (DHA/HAAD compliance), Kuwait — identical multi-payer fraud pressures. Bahrain pilot becomes the GCC reference deployment.</div>
+      </div>
+    </div>
+
+    <div style="background:rgba(255,77,109,0.07);border:1px solid rgba(255,77,109,0.2);border-radius:12px;padding:18px 24px" class="reveal">
+      <span style="font-size:13.5px;color:var(--white);line-height:1.7">
+        <strong style="color:var(--gold)">Why Bahrain first:</strong> NHRA is tightening. Sehati is live and scaling rapidly to 686,000+ expats. The MoH has publicly named pharmaceutical overspend as the budget crisis. The BD 688M fund is exposed now — and <strong style="color:var(--fraud)">no pre-payment AI firewall exists for this market.</strong>
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- S9 ASK -->
+<section class="slide" id="s9">
+  <div class="slide-inner">
+    <div class="slide-num reveal">08 — The Ask</div>
+    <h2 class="section-title reveal">Bahrain Can Be the<br><span style="color:var(--gold)">GCC Reference Deployment.</span></h2>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-bottom:24px">
+      <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:28px 24px" class="reveal">
+        <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--slate);margin-bottom:18px">Value Creation — 100,000 Bahraini Dinar</div>
+        <div style="font-family:'DM Serif Display',serif;font-size:clamp(40px,6vw,70px);color:var(--fraud);line-height:1;letter-spacing:-2px;margin-bottom:4px">BD 100,000</div>
+        <div style="font-size:14px;color:var(--slate2);margin-bottom:6px">~$1.2M USD · Full KASH5 HIP Platform</div>
+        <div style="background:rgba(255,77,109,0.08);border:1px solid rgba(255,77,109,0.22);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--white);line-height:1.6;margin-bottom:16px"><strong style="color:var(--fraud)">Value at risk:</strong> Almost <strong style="color:var(--gold)">1,000,000 Bahraini Dinar</strong> in annual Sehati fund leakage — FraudIQ protects it for 1/10th the cost.</div>
+        <div style="height:1px;background:linear-gradient(90deg,transparent,rgba(255,77,109,0.3),transparent);margin-bottom:18px"></div>
+        <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--slate);margin-bottom:14px">FraudIQ Bahrain Use of Funds</div>
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <div style="display:flex;gap:10px;align-items:center;font-size:13px;color:var(--slate2)"><span style="width:7px;height:7px;border-radius:2px;background:var(--fraud);flex-shrink:0;display:block"></span>NHRA clinical pathway library configuration</div>
+          <div style="display:flex;gap:10px;align-items:center;font-size:13px;color:var(--slate2)"><span style="width:7px;height:7px;border-radius:2px;background:var(--fraud);flex-shrink:0;display:block"></span>Sehati fund API integration and pre-payment gateway</div>
+          <div style="display:flex;gap:10px;align-items:center;font-size:13px;color:var(--slate2)"><span style="width:7px;height:7px;border-radius:2px;background:var(--fraud);flex-shrink:0;display:block"></span>ISO 27001 / cybersecurity certification for GCC</div>
+          <div style="display:flex;gap:10px;align-items:center;font-size:13px;color:var(--slate2)"><span style="width:7px;height:7px;border-radius:2px;background:var(--fraud);flex-shrink:0;display:block"></span>LMRA employer permit data integration</div>
+          <div style="display:flex;gap:10px;align-items:center;font-size:13px;color:var(--slate2)"><span style="width:7px;height:7px;border-radius:2px;background:var(--fraud);flex-shrink:0;display:block"></span>Payer-side white-label licensing framework for GCC insurers</div>
+        </div>
+      </div>
+      <div>
+        <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:28px 24px;margin-bottom:16px" class="reveal">
+          <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--slate);margin-bottom:14px">Immediate Value Impact</div>
+          <div style="font-family:'DM Serif Display',serif;font-size:clamp(32px,4vw,52px);color:var(--gold);line-height:1;letter-spacing:-1px;margin-bottom:4px">$60M</div>
+          <div style="font-size:12.5px;color:var(--slate);line-height:1.6">Bahrain pilot → enterprise = first GCC anchor client. Every subsequent GCC payer licence learns from the Bahrain example — reducing deployment risk, compressing timelines, and raising the floor on what the product delivers.</div>
+        </div>
+        <div style="background:rgba(255,77,109,0.06);border:1px solid rgba(255,77,109,0.18);border-radius:14px;padding:20px" class="reveal">
+          <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--fraud);margin-bottom:14px">Pilot → Enterprise Economics</div>
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:12.5px;border-bottom:1px solid rgba(255,255,255,0.05);padding-bottom:8px">
+              <span style="color:var(--slate2)">Per hospital ARR (GCC target)</span>
+              <span style="font-family:'Space Grotesk';font-weight:700;color:var(--fraud)">$120k–$480k</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:12.5px;border-bottom:1px solid rgba(255,255,255,0.05);padding-bottom:8px">
+              <span style="color:var(--slate2)">Per payer / insurer license</span>
+              <span style="font-family:'Space Grotesk';font-weight:700;color:var(--fraud)">$500k–$2M</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:12.5px">
+              <span style="color:var(--slate2)">5 GCC pilots → ARR potential</span>
+              <span style="font-family:'Space Grotesk';font-weight:700;color:var(--gold)">$600k–$2.4M</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:rgba(245,166,35,0.07);border:1px solid rgba(245,166,35,0.2);border-radius:12px;padding:22px 28px" class="reveal">
+      <p style="font-size:14.5px;color:var(--white);line-height:1.7"><strong style="color:var(--gold)">Why now:</strong> The NHRA is tightening enforcement. Sehati is live and the BD 688M fund is already processing thousands of claims per day from 877 private facilities. <strong style="color:var(--fraud)">The Bahrain pilot is not to prove the concept — it is to anchor the GCC market before a competitor does.</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- S10 CTA -->
+<section class="slide" id="s10" style="background:radial-gradient(ellipse 65% 55% at 50% 100%,rgba(255,77,109,0.13) 0%,transparent 58%),linear-gradient(180deg,#030407 0%,#07080F 100%)">
+  <div class="slide-inner">
+    <div style="text-align:center;max-width:720px;margin:0 auto">
+      <div class="slide-num reveal" style="text-align:center">09 — Let's Stop the Leak</div>
+      <h2 style="font-family:'DM Serif Display',serif;font-size:clamp(36px,5.5vw,72px);line-height:1.1;letter-spacing:-2px;margin-bottom:16px" class="reveal">See <em style="color:var(--fraud)">FraudIQ</em><br>Catch Fraud in<br>Bahrain's Data.</h2>
+      <p style="font-size:17px;color:var(--slate2);line-height:1.65;margin-bottom:44px" class="reveal">US platform live. Bahrain pilot intended.<br>We'll run a live anomaly scan on anonymised Bahraini claims data — in the room, in 30 minutes.</p>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:48px" class="reveal">
+        <a href="mailto:tapan@exponentialcapitals.com" style="background:var(--fraud);color:#fff;font-weight:700;font-size:14px;padding:15px 30px;border-radius:100px;text-decoration:none;display:inline-block;transition:all .2s">Request Live Demo — Bahrain</a>
+        <a href="https://www.kash5.com" target="_blank" style="background:transparent;color:var(--white);font-weight:600;font-size:14px;padding:15px 30px;border-radius:100px;border:1px solid rgba(255,255,255,0.18);text-decoration:none;display:inline-block">Request Investor Data Room</a>
+      </div>
+      <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:18px;padding:26px 32px;display:inline-flex;gap:32px;text-align:left;flex-wrap:wrap;justify-content:center" class="reveal">
+        <div style="display:flex;flex-direction:column;gap:3px"><span style="font-size:9.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--slate)">Founder</span><span style="font-size:14px;color:var(--white);font-weight:500">Dr. Tapan Shah</span></div>
+        <div style="display:flex;flex-direction:column;gap:3px"><span style="font-size:9.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--slate)">Email</span><span style="font-size:14px;color:var(--white);font-weight:500">tapan@exponentialcapitals.com</span></div>
+        <div style="display:flex;flex-direction:column;gap:3px"><span style="font-size:9.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--slate)">Phone</span><span style="font-size:14px;color:var(--white);font-weight:500">+91 85951 33348</span></div>
+        <div style="display:flex;flex-direction:column;gap:3px"><span style="font-size:9.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--slate)">Website</span><span style="font-size:14px;color:var(--white);font-weight:500">www.kash5.com</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const nd = document.getElementById('navDots');
+const sc = document.getElementById('slideCounter');
+const N = slides.length;
+slides.forEach((_,i)=>{const d=document.createElement('div');d.className='nav-dot'+(i===0?' active':'');d.onclick=()=>slides[i].scrollIntoView({behavior:'smooth'});nd.appendChild(d)});
+const io=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){const i=[...slides].indexOf(x.target);document.querySelectorAll('.nav-dot').forEach((d,j)=>d.classList.toggle('active',j===i));sc.textContent=(i+1)+' / '+N}})},{threshold:0.5});
+slides.forEach(s=>io.observe(s));
+const rv=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')})},{threshold:0.08,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>rv.observe(el));
+</script>
+</body>
+</html>
